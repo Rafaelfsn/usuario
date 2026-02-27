@@ -1,10 +1,7 @@
 package com.javanauta.usuario.infrastructure.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "usuario")
+@Builder
 public class Usuario implements UserDetails {
 
     @Id
@@ -29,6 +27,7 @@ public class Usuario implements UserDetails {
     @Column(name = "senha")
     private String senha;
 
+    //--- RELACIONAMENTOS
     @OneToMany(cascade = CascadeType.ALL) //RELACIONAMENTO CASACADA - AO EXCLUIR USUARIO, EXCLUIR ENDERECO E TEL AUTOMAT
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private List<Endereco> endereco;
@@ -36,6 +35,7 @@ public class Usuario implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private List<Telefone> telefone;
+    //---
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
